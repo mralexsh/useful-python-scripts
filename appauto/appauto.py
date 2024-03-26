@@ -23,10 +23,11 @@ class BitcoinCorePassInputTests(unittest.TestCase):
         #desired_caps["app"] = "C:\\Program Files\\Bitcoin\\bitcoin-qt.exe"
         #desired_caps["appTopLevelWindow"] = window_hwnd("KeePass.exe")
         desired_caps["platformName"] = "Windows"
-        desired_caps["appTopLevelWindow"] = window_by_title("db.kdbx - KeePass")
+        desired_caps["appTopLevelWindow"] = window_by_title("Bitcoin Core")
         self.driver = webdriver.Remote(
             command_executor='http://127.0.0.1:4723',
             desired_capabilities= desired_caps)
+        self.driver.switch_to.active_element
 
     @classmethod
     def tearDownClass(self):
@@ -39,19 +40,26 @@ class BitcoinCorePassInputTests(unittest.TestCase):
         displaytext = displaytext.lstrip(' ')
         return displaytext
 
-
-    #def test_initialize(self):
-    #    self.driver.find_element_by_name("Clear").click()
-    #    self.driver.find_element_by_name("Seven").click()
-    #    self.assertEqual(self.getresults(),"7")
-    #    self.driver.find_element_by_name("Clear").click()
-
-
     def test_combination(self):
-        elements = self.driver.find_elements("Изменить пароль")
-        elements[2] = '1'
-        elements[4] = '12'
-        elements[6] = '123'
+        edits = self.driver.find_elements_by_tag_name("Edit")        
+        ok = self.driver.find_elements_by_tag_name("Button")
+        
+        edits[0].click()
+        edits[0].clear()
+        edits[0].send_keys("qqq")
+        
+        edits[1].click()
+        edits[1].clear()
+        edits[1].send_keys("qqq")
+        
+        edits[2].click()
+        edits[2].clear()
+        edits[2].send_keys("qqq")
+        
+        ok[2].click()
+        
+        
+
         self.assertEqual("8","8")
 
 if __name__ == '__main__':
